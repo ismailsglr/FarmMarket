@@ -36,8 +36,8 @@ const Navbar = ({ activeSection, setActiveSection }) => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link to="/">
-                <h1 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent cursor-pointer">
+              <Link to="/" className="group">
+                <h1 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent cursor-pointer transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
                   FarmMarket
                 </h1>
               </Link>
@@ -46,19 +46,30 @@ const Navbar = ({ activeSection, setActiveSection }) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+            <div className="ml-10 flex items-baseline space-x-6">
               {navItems.map((item) => (
                 <Link
                   key={item.id}
                   to={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                  className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 group ${
                     location.pathname === item.href
-                      ? 'text-primary-400 bg-primary-400/10'
-                      : 'text-gray-300 hover:text-primary-400 hover:bg-primary-400/10'
+                      ? 'text-white'
+                      : 'text-gray-300 hover:text-white'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item.label}
+                  {/* Text with gradient */}
+                  <span className={`relative z-10 ${
+                    location.pathname === item.href
+                      ? 'bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent'
+                      : 'group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent'
+                  }`}>
+                    {item.label}
+                  </span>
+                  {/* Bottom border on active */}
+                  {location.pathname === item.href && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 rounded-full"></span>
+                  )}
                 </Link>
               ))}
             </div>
@@ -68,17 +79,18 @@ const Navbar = ({ activeSection, setActiveSection }) => {
           <div className="flex items-center space-x-4">
             {connected ? (
               <div className="flex items-center space-x-3">
-                <div className="hidden sm:block text-right">
-                  <div className="text-sm text-gray-300">
+                <div className="hidden sm:block text-right bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2">
+                  <div className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                     {formatAddress(publicKey)}
                   </div>
-                  <div className="text-xs text-gray-500">
-                    {balance.toFixed(4)} SOL
+                  <div className="text-xs font-medium text-gray-400 flex items-center gap-1">
+                    <span className="text-cyan-400">{balance.toFixed(4)}</span>
+                    <span className="text-purple-400">SOL</span>
                   </div>
                 </div>
                 <button
                   onClick={disconnectWallet}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-red-500/50 hover:scale-105"
                 >
                   <Wallet size={16} />
                   <span>Disconnect</span>
@@ -87,10 +99,11 @@ const Navbar = ({ activeSection, setActiveSection }) => {
             ) : (
               <button
                 onClick={connectWallet}
-                className="bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                className="bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 hover:from-cyan-600 hover:via-purple-600 hover:to-cyan-600 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-cyan-500/50 hover:scale-105 relative overflow-hidden group"
               >
-                <Wallet size={16} />
-                <span>Connect Wallet</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                <Wallet size={16} className="relative z-10" />
+                <span className="relative z-10">Connect Wallet</span>
               </button>
             )}
 
@@ -98,7 +111,7 @@ const Navbar = ({ activeSection, setActiveSection }) => {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-300 hover:text-white p-2"
+                className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -115,14 +128,25 @@ const Navbar = ({ activeSection, setActiveSection }) => {
               <Link
                 key={item.id}
                 to={item.href}
-                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
+                className={`relative block w-full text-left px-4 py-3 text-base font-semibold transition-all duration-300 group ${
                   location.pathname === item.href
-                    ? 'text-primary-400 bg-primary-400/10'
-                    : 'text-gray-300 hover:text-primary-400 hover:bg-primary-400/10'
+                    ? 'text-white'
+                    : 'text-gray-300 hover:text-white'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item.label}
+                {/* Text with gradient */}
+                <span className={`relative z-10 ${
+                  location.pathname === item.href
+                    ? 'bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent'
+                    : 'group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-400 group-hover:bg-clip-text group-hover:text-transparent'
+                }`}>
+                  {item.label}
+                </span>
+                {/* Left border on active for mobile */}
+                {location.pathname === item.href && (
+                  <span className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-400 via-purple-400 to-cyan-400 rounded-r-full"></span>
+                )}
               </Link>
             ))}
           </div>

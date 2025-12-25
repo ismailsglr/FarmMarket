@@ -12,13 +12,13 @@ const AdminDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Tüm siparişleri çekme
+                // Fetch all orders
                 const ordersRes = await fetch('/api/orders');
-                if (!ordersRes.ok) throw new Error('Siparişler çekilemedi.');
+                if (!ordersRes.ok) throw new Error('Failed to fetch orders.');
                 const ordersData = await ordersRes.json();
                 setOrders(ordersData);
 
-                // İstatistikleri hesaplama
+                // Calculate statistics
                 let totalRevenue = 0;
                 let totalOrders = ordersData.length;
                 ordersData.forEach(order => {
@@ -26,9 +26,9 @@ const AdminDashboard = () => {
                 });
                 setStats({ totalRevenue, totalOrders });
 
-                // En çok harcayan kullanıcıları çekme
+                // Fetch top buyers
                 const topBuyersRes = await fetch('/api/users/stats/top-buyers');
-                if (!topBuyersRes.ok) throw new Error('En çok harcayanlar çekilemedi.');
+                if (!topBuyersRes.ok) throw new Error('Failed to fetch top buyers.');
                 const topBuyersData = await topBuyersRes.json();
                 setTopBuyers(topBuyersData);
 
@@ -42,77 +42,182 @@ const AdminDashboard = () => {
         fetchData();
     }, []);
 
-    if (loading) return <div className="text-center mt-20">Yükleniyor...</div>;
-    if (error) return <div className="text-center mt-20 text-red-500">Hata: {error}</div>;
+    if (loading) {
+        return (
+            <div className="relative min-h-screen bg-[#0f172a] flex items-center justify-center">
+                <div className="text-center text-gray-300">
+                    <div className="text-xl font-semibold">Loading...</div>
+                </div>
+            </div>
+        );
+    }
+    
+    if (error) {
+        return (
+            <div className="relative min-h-screen bg-[#0f172a] flex items-center justify-center">
+                <div className="text-center text-red-500">
+                    <div className="text-xl font-semibold">Error: {error}</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="p-8 md:p-12 pt-28 md:pt-32"
-        >
-            <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-primary-400">Yönetim Paneli</h1>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div className="bg-dark-800 p-6 rounded-xl shadow-lg border-2 border-primary-400">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-semibold text-gray-200">Toplam Gelir</h2>
-                        <DollarSign size={24} className="text-green-500" />
-                    </div>
-                    <p className="text-3xl font-bold text-green-400">
-                        ${stats.totalRevenue.toFixed(2)}
-                    </p>
-                </div>
+        <div className="relative min-h-screen bg-[#0f172a] overflow-hidden">
+            {/* Background Effects - Z-Index 0 */}
+            <div className="absolute inset-0 z-0">
+                {/* Subtle Grid Pattern */}
+                <div 
+                    className="absolute inset-0 opacity-[0.02]"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px)
+                        `,
+                        backgroundSize: '60px 60px'
+                    }}
+                />
                 
-                <div className="bg-dark-800 p-6 rounded-xl shadow-lg border-2 border-primary-400">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-semibold text-gray-200">Toplam Sipariş</h2>
-                        <ShoppingCart size={24} className="text-blue-500" />
-                    </div>
-                    <p className="text-3xl font-bold text-blue-400">
-                        {stats.totalOrders}
-                    </p>
-                </div>
-
-                <div className="bg-dark-800 p-6 rounded-xl shadow-lg border-2 border-primary-400">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-semibold text-gray-200">Top Alıcılar</h2>
-                        <User size={24} className="text-purple-500" />
-                    </div>
-                    <p className="text-3xl font-bold text-purple-400">
-                        {topBuyers.length > 0 ? topBuyers[0].wallet_address.substring(0, 4) + '...' : 'Yok'}
-                    </p>
-                </div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-purple-900/5 via-transparent to-cyan-900/5"></div>
+                
+                {/* Multiple Small Glow Points */}
+                <div className="absolute top-[10%] left-[15%] w-[400px] h-[400px] bg-purple-500 rounded-full blur-[100px] opacity-[0.15]"></div>
+                <div className="absolute top-[30%] right-[20%] w-[350px] h-[350px] bg-cyan-500 rounded-full blur-[90px] opacity-[0.12]"></div>
+                <div className="absolute bottom-[20%] left-[25%] w-[380px] h-[380px] bg-purple-400 rounded-full blur-[95px] opacity-[0.1]"></div>
+                <div className="absolute bottom-[15%] right-[15%] w-[320px] h-[320px] bg-cyan-400 rounded-full blur-[85px] opacity-[0.13]"></div>
+                
+                {/* Animated Gradient Orbs */}
+                <motion.div
+                    className="absolute top-[20%] right-[10%] w-[250px] h-[250px] bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur-[70px] opacity-[0.1]"
+                    animate={{
+                        x: [0, 30, 0],
+                        y: [0, -20, 0],
+                        scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: 'easeInOut'
+                    }}
+                />
+                <motion.div
+                    className="absolute bottom-[30%] left-[10%] w-[280px] h-[280px] bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full blur-[75px] opacity-[0.12]"
+                    animate={{
+                        x: [0, -25, 0],
+                        y: [0, 25, 0],
+                        scale: [1, 1.15, 1],
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: 0.5
+                    }}
+                />
             </div>
 
-            <h2 className="text-2xl font-bold text-primary-400 mb-6">Tüm Siparişler</h2>
-            <div className="bg-dark-800 rounded-xl p-4 shadow-lg border-2 border-secondary-400 overflow-x-auto">
-                <table className="min-w-full text-left text-gray-200">
-                    <thead className="border-b-2 border-gray-600">
-                        <tr>
-                            <th className="p-3 font-semibold text-sm tracking-wide">ID</th>
-                            <th className="p-3 font-semibold text-sm tracking-wide">Kullanıcı</th>
-                            <th className="p-3 font-semibold text-sm tracking-wide">Ürün</th>
-                            <th className="p-3 font-semibold text-sm tracking-wide">Fiyat (SOL)</th>
-                            <th className="p-3 font-semibold text-sm tracking-wide">Tarih</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.map(order => (
-                            <tr key={order.id} className="border-b border-gray-700 last:border-b-0">
-                                <td className="p-3 text-sm">{order.id.substring(0, 8)}...</td>
-                                <td className="p-3 text-sm">{order.user_wallet_address.substring(0, 6)}...</td>
-                                <td className="p-3 text-sm">{order.products.name} (T{order.products.tier})</td>
-                                <td className="p-3 text-sm font-semibold text-secondary-300">{order.transaction_amount}</td>
-                                <td className="p-3 text-sm">{new Date(order.created_at).toLocaleDateString()}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {/* Main Content - Z-Index 10 */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="relative z-10 p-8 md:p-12 pt-28 md:pt-32 max-w-7xl mx-auto"
+            >
+                <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">Admin Dashboard</h1>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-cyan-500/30 transition-all duration-300"
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-semibold text-gray-200">Total Revenue</h2>
+                            <div className="w-12 h-12 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl flex items-center justify-center border border-green-500/30">
+                                <DollarSign size={24} className="text-green-400" />
+                            </div>
+                        </div>
+                        <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                            ${stats.totalRevenue.toFixed(2)}
+                        </p>
+                    </motion.div>
+                    
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-blue-500/30 transition-all duration-300"
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-semibold text-gray-200">Total Orders</h2>
+                            <div className="w-12 h-12 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center border border-blue-500/30">
+                                <ShoppingCart size={24} className="text-blue-400" />
+                            </div>
+                        </div>
+                        <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                            {stats.totalOrders}
+                        </p>
+                    </motion.div>
 
-        </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-purple-500/30 transition-all duration-300"
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-semibold text-gray-200">Top Buyers</h2>
+                            <div className="w-12 h-12 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center border border-purple-500/30">
+                                <User size={24} className="text-purple-400" />
+                            </div>
+                        </div>
+                        <p className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            {topBuyers.length > 0 ? topBuyers[0].wallet_address.substring(0, 4) + '...' : 'None'}
+                        </p>
+                    </motion.div>
+                </div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-6">All Orders</h2>
+                    <div className="bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl overflow-x-auto">
+                        <table className="min-w-full text-left">
+                            <thead className="border-b border-white/10">
+                                <tr>
+                                    <th className="p-4 font-semibold text-sm tracking-wide text-gray-300">ID</th>
+                                    <th className="p-4 font-semibold text-sm tracking-wide text-gray-300">User</th>
+                                    <th className="p-4 font-semibold text-sm tracking-wide text-gray-300">Product</th>
+                                    <th className="p-4 font-semibold text-sm tracking-wide text-gray-300">Price (SOL)</th>
+                                    <th className="p-4 font-semibold text-sm tracking-wide text-gray-300">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map((order, index) => (
+                                    <motion.tr
+                                        key={order.id}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+                                        className="border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors duration-200"
+                                    >
+                                        <td className="p-4 text-sm text-gray-300 font-mono">{order.id.substring(0, 8)}...</td>
+                                        <td className="p-4 text-sm text-gray-300 font-mono">{order.user_wallet_address.substring(0, 6)}...</td>
+                                        <td className="p-4 text-sm text-gray-200">{order.products.name} <span className="text-cyan-400">(T{order.products.tier})</span></td>
+                                        <td className="p-4 text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">{order.transaction_amount}</td>
+                                        <td className="p-4 text-sm text-gray-400">{new Date(order.created_at).toLocaleDateString()}</td>
+                                    </motion.tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </motion.div>
+            </motion.div>
+        </div>
     );
 };
 

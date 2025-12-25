@@ -5,7 +5,8 @@ import Hero from './components/Hero';
 import MarketplacePage from './components/Marketplace';
 import About from './components/About';
 import Footer from './components/Footer';
-import AdminDashboard from './components/AdminDashboard'; // AdminDashboard.jsx dosyasını import edin
+import AdminDashboard from './components/AdminDashboard';
+import ScrollToTop from './components/ScrollToTop';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900">
       <Router>
+        <ScrollToTop />
         <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
         <Routes>
           <Route path="/" element={<Hero setActiveSection={setActiveSection} />} />

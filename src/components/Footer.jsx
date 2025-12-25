@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Twitter, Github, Mail, Heart } from 'lucide-react';
 
@@ -61,19 +62,19 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#home" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <Link to="/" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#marketplace" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <Link to="/marketplace" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
                   Marketplace
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#about" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <Link to="/about" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
                   About
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -83,24 +84,36 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <a 
+                  href="mailto:contact@farmmarket.com?subject=Help Center" 
+                  className="text-gray-300 hover:text-primary-400 transition-colors duration-300 cursor-pointer"
+                >
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <a 
+                  href="mailto:contact@farmmarket.com" 
+                  className="text-gray-300 hover:text-primary-400 transition-colors duration-300 cursor-pointer"
+                >
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <button 
+                  onClick={() => alert('Privacy Policy page coming soon!')}
+                  className="text-gray-300 hover:text-primary-400 transition-colors duration-300 cursor-pointer"
+                >
                   Privacy Policy
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary-400 transition-colors duration-300">
+                <button 
+                  onClick={() => alert('Terms of Service page coming soon!')}
+                  className="text-gray-300 hover:text-primary-400 transition-colors duration-300 cursor-pointer"
+                >
                   Terms of Service
-                </a>
+                </button>
               </li>
             </ul>
           </div>
