@@ -90,20 +90,20 @@ const Navbar = ({ activeSection, setActiveSection }) => {
                 </div>
                 <button
                   onClick={disconnectWallet}
-                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-2.5 sm:px-4 py-1 sm:py-2 rounded-lg text-[10px] sm:text-sm font-semibold transition-all duration-300 flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-red-500/50 hover:scale-105"
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-[9px] sm:text-sm font-semibold transition-all duration-300 flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-red-500/50 hover:scale-105"
                 >
-                  <Wallet size={12} className="sm:w-4 sm:h-4" />
-                  <span>Disconnect</span>
+                  <Wallet size={11} className="sm:w-4 sm:h-4 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Disconnect</span>
                 </button>
               </div>
             ) : (
               <button
                 onClick={connectWallet}
-                className="bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 hover:from-cyan-600 hover:via-purple-600 hover:to-cyan-600 text-white px-2.5 sm:px-6 py-1 sm:py-2 rounded-lg text-[10px] sm:text-sm font-semibold transition-all duration-300 flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-cyan-500/50 hover:scale-105 relative overflow-hidden group"
+                className="bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 hover:from-cyan-600 hover:via-purple-600 hover:to-cyan-600 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-lg text-[9px] sm:text-sm font-semibold transition-all duration-300 flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-cyan-500/50 hover:scale-105 relative overflow-hidden group"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-                <Wallet size={12} className="sm:w-4 sm:h-4 relative z-10" />
-                <span className="relative z-10">Connect Wallet</span>
+                <Wallet size={11} className="sm:w-4 sm:h-4 relative z-10 flex-shrink-0" />
+                <span className="relative z-10 whitespace-nowrap">Connect Wallet</span>
               </button>
             )}
 
